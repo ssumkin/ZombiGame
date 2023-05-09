@@ -14,50 +14,28 @@
  * 
  */
   
- import java.util.Random;
- import java.util.Scanner;
- 
+import java.util.Random;
+import java.util.Scanner;
  
  public class ZombiGame { 
  
  
-     int heroLocation(int[] map) {
-         int check = 0;
- 
-         for(int i = 0; i < map.length; i++) {
-             if(map[i] == 1) {
-                 check = i;
-             }
-         }
- 
-         return check;
-     }
- 
-     int zom1Location(int[] map) {
-         int check = 0;
- 
-         for(int i = 0; i < map.length; i++) {
-             if(map[i] == 2) {
-                 check = i;
-             }
-         }
- 
-         return check;
-     }
- 
-     int zom2Location(int[] map) {
-         int check = 0;
- 
-         for(int i = 0; i < map.length; i++) {
-             if(map[i] == 3) {
-                 check = i;
-             }
-         }
- 
-         return check;
-     }
- 
- 
+    int[] unitLocation(int[] map) {
+        int[] check = new int[3];
+
+        for(int i = 0; i < map.length; i++) {
+            if(map[i] == 1) {
+                check[0] = i;
+            } else if(map[i] == 2) {
+                check[1] = i;
+            } else if(map[i] == 3) {
+                check[2] = i;
+            }
+        }
+
+        return check;
+    }
+  
      public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ZombiGame zombiGame = new ZombiGame();
@@ -72,6 +50,9 @@
         int zom2L = 17;
         boolean gameLoop = true;
 
+        int afterHeroMove = 0;
+        int afterZom1Move = 0;
+        int afterZom2Move = 0;
 
         
         map[heroL] = hero;
@@ -93,35 +74,89 @@
                 }
             }
 
+            if(!((move == 1) || (move == 2) || (move == 3))) {
+                System.out.println("다시 입력해 주세요.");
+                continue;
+            }
+
+            int randMove1 = rand.nextInt(3);
+            int randMove2 = rand.nextInt(3);
+            
+            int[] nowLocation = zombiGame.unitLocation(map);
+            
+            heroL = nowLocation[0]; 
+            zom1L = nowLocation[1]; 
+            zom2L = nowLocation[2];
+
             switch(move) {
                 case 1: {
-                    heroL = zombiGame.heroLocation(map);
                     map[heroL] = 0;
                     map[heroL+1] = hero;
+                    afterHeroMove = heroL+1;
                     break;
                 } 
                 case 2: {
-                    heroL = zombiGame.heroLocation(map);
                     map[heroL] = 0;
                     map[heroL-1] = hero;
+                    afterHeroMove = heroL-1;
                     break; 
                 }
                 case 3: {
-                    heroL = zombiGame.heroLocation(map);
                     map[heroL] = 0;
                     map[heroL+2] = hero;
+                    afterHeroMove = heroL+2;
+                    break; 
+                } 
+            }
+ 
+            switch(randMove1) {
+                case 1: {
+                    map[zom1L] = 0;
+                    map[zom1L+1] = zom1;
+                    afterZom1Move = zom1L+1;
+                    break;
+                } 
+                case 2: {
+                    map[zom1L] = 0;
+                    map[zom1L-1] = zom1;
+                    afterZom1Move = zom1L-1;
                     break; 
                 }
-                default: {
-                    System.out.println("다시 입력해주세요.");
-                    break;
+                case 3: {
+                    map[zom1L] = zom1; 
+                    afterZom1Move = zom1L;
+                    break; 
                 } 
             }
 
-            if(zombiGame.heroLocation(map) == zombiGame.zom1Location(map)) {
-                for (int i : map) {
-                    System.out.print(i);
+            switch(randMove2) {
+                case 1: {
+                    map[zom2L] = 0;
+                    if(zom2L+1 > 19) {
+                        map[zom2L] = zom2; 
+                        afterZom2Move = zom2L;
+                    } else {
+                        map[zom2L+1] = zom2;
+                        afterZom2Move = zom2L+1;
+                    } 
+                    break;
                 } 
+                case 2: {
+                    map[zom2L] = 0;
+                    map[zom2L-1] = zom2;
+                    afterZom2Move = zom2L-1;
+                    break; 
+                }
+                case 3: {
+                    map[zom2L] = zom2; 
+                    afterZom2Move = zom2L;
+                    break; 
+                } 
+            }
+ 
+
+            if((afterHeroMove == afterZom1Move) || (afterHeroMove == afterZom2Move)) {
+                System.out.println("죽었습니다.");
             }
 
 
@@ -130,16 +165,8 @@
             } 
             System.out.println();
  
- 
-             
- 
          }
- 
- 
- 
-         
- 
- 
+  
      }
  }
  
