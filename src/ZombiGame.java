@@ -58,17 +58,18 @@ import java.util.Scanner;
         map[heroL] = hero;
         map[zom1L] = zom1;
         map[zom2L] = zom2;
-
-        for (int i : map) {
-            System.out.print(i);
-        } 
-        System.out.println();
+ 
 
         while(gameLoop) {
+            for (int i : map) {
+                System.out.print(i);
+            } 
+            System.out.println();
+            System.out.println("1. 오른쪽 한 칸 / 2. 왼쪽 한 칸 / 3. 오른쪽 두 칸");
             System.out.print(">> ");
             int move = scanner.nextInt();
 
-            if(heroL == 1) {
+            if(heroL == 0) {
                 if(move == 2) {
                     continue;
                 }
@@ -157,14 +158,12 @@ import java.util.Scanner;
 
             if((afterHeroMove == afterZom1Move) || (afterHeroMove == afterZom2Move)) {
                 System.out.println("죽었습니다.");
+                gameLoop = false;
             }
 
 
-            for (int i : map) {
-                System.out.print(i);
-            } 
-            System.out.println();
- 
+            
+            System.out.print("\033[H\033[2J");
          }
   
      }
