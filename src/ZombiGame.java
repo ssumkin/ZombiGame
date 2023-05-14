@@ -50,15 +50,11 @@ import java.util.Scanner;
         int zom2L = 17;
         boolean gameLoop = true;
 
-        int afterHeroMove = 0;
-        int afterZom1Move = 0;
-        int afterZom2Move = 0;
-
+        int afterHeroMove, afterZom1Move, afterZom2Move; 
         
         map[heroL] = hero;
         map[zom1L] = zom1;
-        map[zom2L] = zom2;
- 
+        map[zom2L] = zom2; 
 
         while(gameLoop) {
             for (int i : map) {
@@ -80,8 +76,8 @@ import java.util.Scanner;
                 continue;
             }
 
-            int randMove1 = rand.nextInt(3);
-            int randMove2 = rand.nextInt(3);
+            int randMove1 = rand.nextInt(3) + 1;
+            int randMove2 = rand.nextInt(3) + 1;
             
             int[] nowLocation = zombiGame.unitLocation(map);
             
@@ -153,19 +149,15 @@ import java.util.Scanner;
                     afterZom2Move = zom2L;
                     break; 
                 } 
-            }
- 
+            } 
 
             if((afterHeroMove == afterZom1Move) || (afterHeroMove == afterZom2Move)) {
                 System.out.println("죽었습니다.");
                 gameLoop = false;
             }
-
-
-            
+ 
             System.out.print("\033[H\033[2J");
          }
   
      }
- }
- 
+ } 
